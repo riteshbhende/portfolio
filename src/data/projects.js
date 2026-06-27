@@ -4,29 +4,44 @@ export const projectsData = [
     title: "Cricket Scorekeeper",
     subtitle: "Real-Time Scoring App",
     category: "fullstack",
-    tags: ["React.js", "Spring Boot", "WebSocket", "Redis", "MySQL"],
-    description: "A real-time cricket scoring application using WebSockets for live match updates and dynamic data sync. Features ball-by-ball scoring, over tracking, and match statistics. Integrates Redis caching and MySQL with JWT auth and undo/redo scoring functionality.",
-    github: "https://github.com",
-    live: "https://example.com"
+    tags: ["React.js", "Tailwind CSS", "Spring Boot", "WebSocket", "JWT", "MySQL"],
+    points: [
+      "Built a real-time cricket scoring system for local and college tournaments, replacing manual scoreboards and improving match management efficiency.",
+      "Developed a live scoring dashboard with ball-by-ball tracking, wickets, extras, CRR, partnership stats, and projected score calculation.",
+      "Implemented secure backend services using Spring Boot, RESTful APIs, JWT-based authentication, and role-based access control (RBAC) for match and player management.",
+      "Integrated WebSocket for instant live score synchronization and optimized MySQL database for efficient data storage, fast retrieval, and reliable score backup."
+    ],
+    github: "https://github.com/riteshbhende/cricket-app-backend",
+    live: "https://github.com/riteshbhende/cricket-app-frontend"
   },
   {
     id: 2,
-    title: "StayLio",
-    subtitle: "Online Hotel Booking & Management",
+    title: "Smart Grocery Store Management",
+    subtitle: "Kirana Store Inventory & Billing",
     category: "fullstack",
-    tags: ["ReactJS", "Spring Boot", "MySQL", "Docker", "REST APIs"],
-    description: "A full-stack hotel booking platform enabling booking transactions, listings, and reservations. Implements RESTful APIs in Spring Boot with role-based access control (RBAC) and JWT, with Docker containerization for portability.",
-    github: "https://github.com",
-    live: "https://example.com"
+    tags: ["React.js", "Spring Boot", "MySQL", "Redis", "JWT", "Docker"],
+    points: [
+      "Developed a full-stack grocery management platform for inventory tracking, order processing, billing, and customer management for my kirana store.",
+      "Built a Digital Udhar Khata system to manage customer credit limits, pending dues, and payment history with transactional data handling.",
+      "Implemented an automated expiry tracking system using Spring Scheduler to optimize inventory and reduce product wastage.",
+      "Integrated Redis caching, JWT authentication, and Docker containerization to improve application performance, security, and scalability."
+    ],
+    github: "https://github.com/riteshbhende",
+    live: "#"
   },
   {
     id: 3,
     title: "Alumni Management System",
-    subtitle: "Scalable Member Directory Platform",
-    category: "backend",
-    tags: ["Spring Boot", "REST APIs", "MySQL", "Spring Security", "Postman"],
-    description: "A scalable web-based alumni management system utilizing layered architecture (Controller, Service, Repository). Features secure authentication with Spring Security and optimized database query routines verified using Postman.",
-    github: "https://github.com",
-    live: "https://example.com"
+    subtitle: "Mentorship & Collaboration Platform",
+    category: "fullstack",
+    tags: ["Spring Boot", "React.js", "MySQL", "Spring Security", "AI Integration", "Hibernate"],
+    points: [
+      "Developed a full-stack alumni management platform for mentorship, referrals, job postings, and event management to enhance student-alumni collaboration.",
+      "Implemented secure role-based authentication using Spring Security and REST APIs for efficient user access management.",
+      "Built scalable modules like job applications, mentorship sessions, notifications, and real-time chat using Spring Boot, Hibernate, and JPA.",
+      "Integrated AI-powered mentor matching and career recommendations with React.js for personalized guidance based on skills, interests, and career goals."
+    ],
+    github: "https://github.com/riteshbhende/Alumini-Management-System",
+    live: "#"
   }
 ];

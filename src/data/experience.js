@@ -25,7 +25,7 @@ export const educationData = [
 export const competitiveData = {
   totalSolved: "150+",
   codechefRating: "1037",
-  leetcodeSolved: "80+"
+  leetcodeSolved: "90+"
 };
 
 export const certificationsData = [

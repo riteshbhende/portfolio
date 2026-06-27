@@ -161,15 +161,26 @@ const Projects = () => {
                 }}>
                   {project.subtitle}
                 </span>
-                <p style={{
-                  fontSize: '0.95rem',
+                <ul style={{
+                  fontSize: '0.88rem',
                   color: 'var(--text-secondary)',
                   marginBottom: '20px',
-                  lineHeight: '1.5',
-                  flexGrow: 1
+                  lineHeight: '1.6',
+                  paddingLeft: '18px',
+                  flexGrow: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
                 }}>
-                  {project.description}
-                </p>
+                  {(project.points || []).map((point, idx) => (
+                    <li key={idx} style={{
+                      listStyleType: 'disc',
+                      paddingLeft: '2px'
+                    }}>
+                      {point}
+                    </li>
+                  ))}
+                </ul>
 
                 {/* Tech Tags */}
                 <div style={{

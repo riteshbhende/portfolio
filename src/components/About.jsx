@@ -4,10 +4,10 @@ const About = () => {
   const { bio } = portfolioData;
 
   const stats = [
-    { number: "3+", label: "Projects Completed" },
-    { number: "150+", label: "DSA Problems Solved" },
-    { number: "7.72", label: "B.Tech CGPA" },
-    { number: "2", label: "Certifications" }
+    { number: "150+", label: "Problems Solved" },
+    { number: "3", label: "Full-Stack Projects" },
+    { number: "2", label: "Certifications" },
+    { number: "7.72", label: "B.Tech CGPA" }
   ];
 
   return (
@@ -25,7 +25,7 @@ const About = () => {
               color: 'var(--text-primary)',
               marginBottom: '20px'
             }}>
-              Engineering products at the intersection of UI excellence and system performance.
+              Aspiring Software Developer building efficient and scalable full-stack applications.
             </h3>
             <p style={{
               fontSize: '1.05rem',
@@ -41,7 +41,7 @@ const About = () => {
               marginBottom: '32px',
               lineHeight: '1.7'
             }}>
-              My approach focuses on writing modular, self-documenting code and utilizing strong design systems to keep development fast and scalable. I love collaborating with design teams to translate complex concepts into highly responsive interfaces.
+              I specialize in Java and C++ with a strong foundation in Data Structures, Algorithms, and Object-Oriented programming. I leverage Spring Boot, MySQL, and Docker for scalable backend services, and use React.js and Tailwind CSS to design dynamic, responsive frontends.
             </p>
             <a href="#contact" className="btn btn-primary">
               Work With Me
@@ -51,8 +51,8 @@ const About = () => {
           {/* Quick stats grid */}
           <div className="grid-2" style={{ gap: '20px' }}>
             {stats.map((stat, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="glass-panel glass-card"
                 style={{
                   textAlign: 'center',

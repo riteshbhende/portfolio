@@ -125,8 +125,8 @@ const Hero = () => {
             {/* Ambient Background Circles */}
             <div className="glow-circle" style={{
               position: 'absolute',
-              width: '320px',
-              height: '320px',
+              width: '380px',
+              height: '380px',
               borderRadius: '50%',
               background: 'var(--accent-gradient)',
               opacity: '0.15',
@@ -138,8 +138,8 @@ const Hero = () => {
             {/* Spinning dotted/gradient border frame */}
             <div style={{
               position: 'relative',
-              width: '280px',
-              height: '280px',
+              width: '340px',
+              height: '340px',
               borderRadius: '50%',
               padding: '6px',
               background: 'var(--accent-gradient)',

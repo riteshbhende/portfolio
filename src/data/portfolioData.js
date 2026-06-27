@@ -8,9 +8,7 @@ export const portfolioData = {
   resumeUrl: "#",
   location: "Pune, Maharashtra, India",
   socials: {
-    github: "https://github.com",
-    linkedin: "https://linkedin.com/in/ritesh-bhende-b311a6326",
-    twitter: "https://x.com",
-    bluesky: "https://bsky.app"
+    github: "https://github.com/riteshbhende",
+    linkedin: "https://linkedin.com/in/ritesh-bhende-b311a6326"
   }
 };
