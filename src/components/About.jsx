@@ -7,7 +7,7 @@ const About = () => {
     { number: "150+", label: "Problems Solved" },
     { number: "3", label: "Full-Stack Projects" },
     { number: "2", label: "Certifications" },
-    { number: "7.72", label: "B.Tech CGPA" }
+    { number: "7.66", label: "B.Tech CGPA" }
   ];
 
   return (
@@ -25,7 +25,7 @@ const About = () => {
               color: 'var(--text-primary)',
               marginBottom: '20px'
             }}>
-              Aspiring Software Developer building efficient and scalable full-stack applications.
+              Aspiring Java Developer building efficient and scalable full-stack applications.
             </h3>
             <p style={{
               fontSize: '1.05rem',
