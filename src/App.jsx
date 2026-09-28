@@ -1,35 +1,36 @@
 import { useEffect } from 'react';
+import Cursor from './components/Cursor';
+import StarBackground from './components/StarBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
-import Experience from './components/Experience';
 import Education from './components/Education';
+import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 function App() {
-  // Implement a dynamic Intersection Observer for scroll-reveal animations
+  // Intersection Observer for scroll-reveal fade in animations
   useEffect(() => {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.15,
+      threshold: 0.1,
     };
 
     const handleIntersect = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // Stop observing once revealed
         }
       });
     };
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
     const sections = document.querySelectorAll('.fade-in-section');
-    
+
     sections.forEach((section) => {
       observer.observe(section);
     });
@@ -43,49 +44,48 @@ function App() {
 
   return (
     <>
-      {/* Background Ambient Glows */}
-      <div className="ambient-glow glow-top-left"></div>
-      <div className="ambient-glow glow-bottom-right"></div>
+      {/* Interactive Custom Mouse Cursor (c-dot & c-ring) */}
+      <Cursor />
 
-      {/* Header/Navbar */}
+      {/* Dynamic Cosmic Starfield & Nebula Canvas Background */}
+      <StarBackground />
+
+      {/* Floating Pill Navbar */}
       <Navbar />
 
-      {/* Main Content Sections */}
+      {/* Main Content Flow */}
       <main>
         {/* Hero Section */}
         <div className="fade-in-section">
           <Hero />
         </div>
 
-        {/* About Section */}
+        {/* 01 - About Section */}
         <div className="fade-in-section">
           <About />
         </div>
 
-        {/* Skills Section */}
+        {/* 02 - Education Section */}
+        <div className="fade-in-section">
+          <Education />
+        </div>
+
+        {/* 03 - Skills Section */}
         <div className="fade-in-section">
           <Skills />
         </div>
 
-        {/* Experience & Education Section */}
-        <section id="experience" className="section fade-in-section">
-          <div className="container">
-            <h2 className="section-title">My Journey</h2>
-            <p className="section-subtitle">A summary of my competitive programming achievements, certifications, and educational path</p>
-            
-            <div className="grid-2" style={{ gap: '50px', marginTop: '40px' }}>
-              <Experience />
-              <Education />
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Showcase */}
+        {/* 04 - Projects Section */}
         <div className="fade-in-section">
           <Projects />
         </div>
 
-        {/* Contact Form */}
+        {/* 05 - Experience & Achievements Section */}
+        <div className="fade-in-section">
+          <Experience />
+        </div>
+
+        {/* 06 - Contact Section */}
         <div className="fade-in-section">
           <Contact />
         </div>

@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { portfolioData } from '../data/portfolioData';
+import { Mail, MapPin, Send, Check, Copy, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { GithubIcon, LinkedinIcon, TwitterIcon } from './Icons';
+import confetti from 'canvas-confetti';
 
 const Contact = () => {
-  const { email, socials, location } = portfolioData;
+  const { email, phone, location, socials } = portfolioData;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -12,246 +15,366 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = useState('');
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setStatus('error');
+      setErrorMessage('Please fill in your name, email, and message.');
       return;
     }
 
     setStatus('loading');
+    setErrorMessage('');
 
-    // Simulate sending message API call
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+    try {
+      // Send form data to FormSubmit API which forwards directly to riteshbhende57@gmail.com
+      const response = await fetch(`https://formsubmit.co/ajax/${email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `Portfolio Message from ${formData.name}: ${formData.subject || 'New Contact Inquiry'}`,
+          message: formData.message,
+          _template: 'table',
+          _captcha: 'false'
+        })
       });
-    }, 1500);
+
+      const data = await response.json();
+
+      if (response.ok && (data.success === 'true' || data.success === true || response.status === 200)) {
+        setStatus('success');
+        confetti({
+          particleCount: 90,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#8b5cf6', '#38bdf8', '#c084fc', '#ffffff']
+        });
+
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        throw new Error(data.message || 'Failed to deliver message.');
+      }
+    } catch (err) {
+      console.error('Email dispatch error:', err);
+      setStatus('error');
+      setErrorMessage(
+        'Unable to send automatically right now. Please email directly at ' + email
+      );
+    }
   };
 
   return (
-    <section id="contact" className="section" style={{ backgroundColor: 'rgba(var(--primary-hsl), 0.01)' }}>
+    <section id="contact" className="section">
       <div className="container">
-        <h2 className="section-title">Get In Touch</h2>
-        <p className="section-subtitle">Have a project in mind or want to chat? Send me a message!</p>
+        {/* Section Tag */}
+        <div className="section-tag">
+          <span>06 — CONTACT</span>
+        </div>
 
-        <div className="grid-2" style={{ gap: '40px', marginTop: '40px' }}>
-          {/* Info Details Panel */}
+        {/* Section Heading */}
+        <h2 className="section-heading">
+          Get In <span className="italic-accent">Touch</span>
+        </h2>
+
+        {/* Accent Line */}
+        <div className="accent-line"></div>
+
+        {/* 2-Column Contact Layout */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1.1fr 1.3fr',
+          gap: '50px',
+          alignItems: 'start'
+        }} className="contact-grid">
+          {/* Left Info Column */}
           <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '30px' }}>
             <div>
               <h3 style={{
-                fontSize: '1.8rem',
+                fontFamily: 'var(--font-heading)',
+                fontSize: '1.75rem',
                 fontWeight: 700,
-                color: 'var(--text-primary)',
-                marginBottom: '16px',
-                fontFamily: 'var(--font-heading)'
+                letterSpacing: '-0.01em',
+                color: '#ffffff',
+                marginBottom: '14px'
               }}>
                 Let's discuss something great
               </h3>
               <p style={{
                 fontSize: '1.05rem',
-                color: 'var(--text-secondary)',
-                lineHeight: '1.7'
+                color: '#94a3b8',
+                lineHeight: '1.75'
               }}>
-                I'm always open to discussing web development partnerships, open-source projects, or new engineering opportunities. Drop me a line directly or use the contact form.
+                I'm actively seeking opportunities as a Java Full Stack Developer, Backend Software Engineer, and Spring Boot Developer. I'm open to discussing full-time engineering roles, backend projects, and technical collaborations. Feel free to reach out anytime!
               </p>
             </div>
 
-            {/* Contact details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '10px',
-                  background: 'var(--accent-gradient)',
-                  color: 'white',
+            {/* Direct Contact Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Email Card */}
+              <div
+                className="cosmic-card"
+                style={{
+                  padding: '16px 20px',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
+                  justifyContent: 'space-between',
+                  borderRadius: '16px'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(168, 85, 247, 0.2))',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Mail size={20} color="#c084fc" />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block', fontWeight: 600 }}>Email Address</span>
+                    <a href={`mailto:${email}`} style={{ fontSize: '0.98rem', fontWeight: 700, color: '#f8fafc', textDecoration: 'none' }}>
+                      {email}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block' }}>Email me at</span>
-                  <a href={`mailto:${email}`} style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                    {email}
-                  </a>
-                </div>
+
+                <button
+                  onClick={handleCopyEmail}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: copiedEmail ? '#34d399' : '#94a3b8',
+                    cursor: 'pointer',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s ease'
+                  }}
+                  title="Copy email"
+                >
+                  {copiedEmail ? <Check size={18} /> : <Copy size={18} />}
+                </button>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              {/* Location Card */}
+              <div
+                className="cosmic-card"
+                style={{
+                  padding: '16px 20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderRadius: '16px',
+                  gap: '14px'
+                }}
+              >
                 <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '10px',
-                  background: 'var(--accent-gradient)',
-                  color: 'white',
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
+                  <MapPin size={20} color="#38bdf8" />
                 </div>
                 <div>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block' }}>Location</span>
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{location}</span>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b', display: 'block', fontWeight: 600 }}>Location</span>
+                  <span style={{ fontSize: '0.98rem', fontWeight: 700, color: '#f8fafc' }}>{location}</span>
                 </div>
               </div>
             </div>
 
-            {/* Social links */}
+            {/* Social Links */}
             <div>
-              <h4 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '12px' }}>Follow my work</h4>
+              <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '14px' }}>
+                Connect With Me
+              </span>
               <div style={{ display: 'flex', gap: '12px' }}>
-                {Object.entries(socials).map(([key, url]) => (
-                  <a
-                    key={key}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-secondary"
-                    style={{
-                      width: '44px',
-                      height: '44px',
-                      padding: 0,
-                      borderRadius: '10px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {key === 'github' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>}
-                    {key === 'linkedin' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>}
-                    {key === 'twitter' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>}
-                    {key === 'bluesky' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 0 0-4 4c0 3.33 3 7 10 9 7-2 10-5.67 10-9a4 4 0 0 0-4-4c-2 0-4 1.33-6 4z"></path></svg>}
-                  </a>
-                ))}
+                <a
+                  href={socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-btn"
+                  aria-label="GitHub"
+                >
+                  <GithubIcon size={18} />
+                </a>
+                <a
+                  href={socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-btn"
+                  aria-label="LinkedIn"
+                >
+                  <LinkedinIcon size={18} />
+                </a>
+                <a
+                  href={socials.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-btn"
+                  aria-label="Twitter / X"
+                >
+                  <TwitterIcon size={18} />
+                </a>
+                <a
+                  href={socials.email}
+                  className="social-btn"
+                >
+                  <Mail size={18} />
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Form Panel */}
-          <div className="glass-panel glass-card" style={{ padding: '36px', borderRadius: '20px' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="name">Your Name</label>
+          {/* Right Form Card */}
+          <div className="cosmic-card" style={{ padding: '38px 32px', borderRadius: '24px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#cbd5e1', marginBottom: '8px' }}>
+                  Your Name
+                </label>
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="John Doe"
-                  className="form-control"
+                  placeholder="e.g. Alex Johnson"
                   required
+                  className="cosmic-input"
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="email">Email Address</label>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#cbd5e1', marginBottom: '8px' }}>
+                  Email Address
+                </label>
                 <input
                   type="email"
-                  id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="john@example.com"
-                  className="form-control"
+                  placeholder="alex@example.com"
                   required
+                  className="cosmic-input"
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="subject">Subject</label>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#cbd5e1', marginBottom: '8px' }}>
+                  Subject
+                </label>
                 <input
                   type="text"
-                  id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="Project Inquiry"
-                  className="form-control"
+                  placeholder="Java Developer Role / Backend Project Inquiry"
+                  className="cosmic-input"
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="message">Message</label>
+              <div style={{ textAlign: 'left' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#cbd5e1', marginBottom: '8px' }}>
+                  Message
+                </label>
                 <textarea
-                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Tell me about your project details..."
-                  className="form-control"
-                  rows="5"
+                  placeholder="Hello, I'd like to talk about..."
+                  rows="4"
                   required
+                  className="cosmic-input"
                   style={{ resize: 'vertical' }}
                 />
               </div>
 
-              {/* Status alerts */}
               {status === 'success' && (
                 <div style={{
-                  padding: '12px 16px',
-                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                  color: '#10b981',
-                  borderRadius: '8px',
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
-                  marginBottom: '16px',
-                  textAlign: 'left'
+                  padding: '16px',
+                  background: 'rgba(52, 211, 153, 0.12)',
+                  border: '1px solid rgba(52, 211, 153, 0.35)',
+                  borderRadius: '12px',
+                  color: '#34d399',
+                  fontSize: '0.92rem',
+                  lineHeight: '1.5',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px'
                 }}>
-                  Thank you! Your message has been sent successfully.
+                  <CheckCircle2 size={20} color="#34d399" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', marginBottom: '2px', color: '#ffffff' }}>Message Sent Successfully!</strong>
+                    <span>Your message has been delivered directly to <strong>{email}</strong>. I'll get back to you shortly.</span>
+                  </div>
                 </div>
               )}
 
               {status === 'error' && (
                 <div style={{
-                  padding: '12px 16px',
-                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
-                  color: '#ef4444',
-                  borderRadius: '8px',
+                  padding: '14px 16px',
+                  background: 'rgba(239, 68, 68, 0.12)',
+                  border: '1px solid rgba(239, 68, 68, 0.35)',
+                  borderRadius: '12px',
+                  color: '#f87171',
                   fontSize: '0.9rem',
-                  fontWeight: 500,
-                  marginBottom: '16px',
-                  textAlign: 'left'
+                  lineHeight: '1.5',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '10px'
                 }}>
-                  Please fill in all the required fields.
+                  <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <span>{errorMessage || 'Something went wrong. Please check your inputs and try again.'}</span>
+                  </div>
                 </div>
               )}
 
               <button
                 type="submit"
-                className="btn btn-primary"
                 disabled={status === 'loading'}
-                style={{ width: '100%', marginTop: '10px' }}
+                className="btn-cosmic-primary"
+                style={{ width: '100%', padding: '14px', borderRadius: '12px', marginTop: '6px', cursor: status === 'loading' ? 'not-allowed' : 'pointer' }}
               >
                 {status === 'loading' ? (
-                  <span>Sending Message...</span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <Loader2 size={18} className="spin-loader" />
+                    <span>Delivering to Gmail...</span>
+                  </span>
                 ) : (
                   <>
-                    Send Message
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="22" y1="2" x2="11" y2="13"></line>
-                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
+                    <span>Send Message</span>
+                    <Send size={16} />
                   </>
                 )}
               </button>
@@ -259,6 +382,62 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .cosmic-input {
+          width: 100%;
+          padding: 12px 16px;
+          border-radius: 12px;
+          background: rgba(10, 13, 30, 0.85);
+          border: 1px solid rgba(148, 163, 230, 0.15);
+          color: #ffffff;
+          font-family: var(--font-sans);
+          font-size: 0.95rem;
+          transition: all 0.2s ease;
+        }
+
+        .cosmic-input:focus {
+          outline: none;
+          border-color: #818cf8;
+          box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+
+        .social-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: rgba(14, 18, 42, 0.8);
+          border: 1px solid rgba(148, 163, 230, 0.15);
+          color: #cbd5e1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .social-btn:hover {
+          background: rgba(129, 140, 248, 0.2);
+          border-color: #818cf8;
+          color: #ffffff;
+          transform: translateY(-3px);
+        }
+
+        .spin-loader {
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

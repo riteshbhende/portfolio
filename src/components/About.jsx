@@ -1,83 +1,96 @@
 import { portfolioData } from '../data/portfolioData';
 
 const About = () => {
-  const { bio } = portfolioData;
-
-  const stats = [
-    { number: "150+", label: "Problems Solved" },
-    { number: "3", label: "Full-Stack Projects" },
-    { number: "2", label: "Certifications" },
-    { number: "7.66", label: "B.Tech CGPA" }
-  ];
+  const { bioHeading, bioHeadingAccent, bioParagraphs, stats, name } = portfolioData;
 
   return (
     <section id="about" className="section">
       <div className="container">
-        <h2 className="section-title">About Me</h2>
-        <p className="section-subtitle">A brief introduction to my background, focus, and core principles</p>
+        {/* Section Tag */}
+        <div className="section-tag">
+          <span>01 — ABOUT</span>
+        </div>
 
-        <div className="grid-2" style={{ alignItems: 'center', marginTop: '40px' }}>
-          {/* Bio text */}
+        {/* Section Heading with Editorial Serif & Italic Accent */}
+        <h2 className="section-heading">
+          {bioHeading} <span className="italic-accent">{bioHeadingAccent}</span>
+        </h2>
+
+        {/* Accent Underline */}
+        <div className="accent-line"></div>
+
+        {/* 2-Column Grid */}
+        <div className="about-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: '1.2fr 1fr',
+          gap: '50px',
+          alignItems: 'start'
+        }}>
+          {/* Bio Story Left Column */}
           <div style={{ textAlign: 'left' }}>
-            <h3 style={{
-              fontSize: '1.8rem',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              marginBottom: '20px'
-            }}>
-              Aspiring Java Developer building efficient and scalable full-stack applications.
-            </h3>
-            <p style={{
-              fontSize: '1.05rem',
-              color: 'var(--text-secondary)',
-              marginBottom: '24px',
-              lineHeight: '1.7'
-            }}>
-              {bio}
-            </p>
-            <p style={{
-              fontSize: '1.05rem',
-              color: 'var(--text-secondary)',
-              marginBottom: '32px',
-              lineHeight: '1.7'
-            }}>
-              I specialize in Java and C++ with a strong foundation in Data Structures, Algorithms, and Object-Oriented programming. I leverage Spring Boot, MySQL, and Docker for scalable backend services, and use React.js and Tailwind CSS to design dynamic, responsive frontends.
-            </p>
-            <a href="#contact" className="btn btn-primary">
-              Work With Me
-            </a>
+            {bioParagraphs.map((para, idx) => (
+              <p
+                key={idx}
+                style={{
+                  fontSize: '1.08rem',
+                  color: '#cbd5e1',
+                  lineHeight: '1.8',
+                  marginBottom: idx === bioParagraphs.length - 1 ? '32px' : '22px'
+                }}
+              >
+                {para}
+              </p>
+            ))}
+
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              <a href="#projects" className="btn-cosmic-primary" style={{ padding: '12px 28px' }}>
+                Explore My Work
+              </a>
+              <a href="#contact" className="btn-cosmic-secondary" style={{ padding: '12px 28px' }}>
+                Get In Touch
+              </a>
+            </div>
           </div>
 
-          {/* Quick stats grid */}
-          <div className="grid-2" style={{ gap: '20px' }}>
+          {/* Bento Stat Cards Right Column (2x2 Grid) */}
+          <div className="stats-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '20px'
+          }}>
             {stats.map((stat, idx) => (
               <div
                 key={idx}
-                className="glass-panel glass-card"
+                className="cosmic-card stat-card"
                 style={{
-                  textAlign: 'center',
-                  padding: '30px 20px',
+                  padding: '36px 26px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  borderRadius: '16px'
+                  minHeight: '160px'
                 }}
               >
-                <span className="gradient-text" style={{
-                  fontSize: '2.5rem',
+                {/* Big Stat Number */}
+                <span className="stat-number" style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '3.2rem',
                   fontWeight: 800,
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontFamily: 'var(--font-heading)'
+                  letterSpacing: '-0.02em',
+                  lineHeight: 1,
+                  color: '#818cf8',
+                  marginBottom: '10px',
+                  display: 'block'
                 }}>
                   {stat.number}
                 </span>
+
+                {/* Stat Label */}
                 <span style={{
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.92rem',
+                  fontWeight: 500,
+                  color: '#94a3b8',
+                  lineHeight: 1.4
                 }}>
                   {stat.label}
                 </span>
@@ -86,6 +99,41 @@ const About = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .stat-card {
+          border-radius: 20px;
+          background: rgba(13, 17, 38, 0.75);
+          border: 1px solid rgba(148, 163, 230, 0.12);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(168, 85, 247, 0.4);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(129, 140, 248, 0.18);
+        }
+
+        .stat-card:hover .stat-number {
+          color: #c084fc;
+        }
+
+        @media (max-width: 968px) {
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          .stats-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

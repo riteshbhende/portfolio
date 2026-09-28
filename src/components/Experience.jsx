@@ -1,175 +1,365 @@
-import { competitiveData, certificationsData } from '../data/experience';
+import { workExperience, certificationsData, achievementsData, competitiveData } from '../data/experience';
+import { Briefcase, Code, Trophy, CheckCircle, ExternalLink, BadgeCheck, Users, Coffee, Database, Award, Sparkles } from 'lucide-react';
 
 const Experience = () => {
   return (
-    <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '30px' }}>
-      {/* Competitive Programming Card */}
-      <div>
-        <h3 style={{
-          fontSize: '1.8rem',
-          fontWeight: 700,
-          marginBottom: '24px',
-          color: 'var(--text-primary)',
-          fontFamily: 'var(--font-heading)',
+    <section id="experience" className="section">
+      <div className="container">
+        {/* Section Tag */}
+        <div className="section-tag">
+          <span>05 — EXPERIENCE, ACHIEVEMENTS & CERTIFICATIONS</span>
+        </div>
+
+        {/* Section Heading */}
+        <h2 className="section-heading">
+          Professional <span className="italic-accent">Journey</span>
+        </h2>
+
+        {/* Accent Line */}
+        <div className="accent-line"></div>
+
+        {/* Subtitle / Category Label: Work Experience */}
+        <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px'
+          gap: '10px',
+          marginBottom: '24px'
         }}>
-          {/* Code Icon */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: 'var(--primary)' }}>
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          Competitive Programming
-        </h3>
+          <Briefcase size={20} color="#818cf8" />
+          <h3 style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: '1.35rem',
+            fontWeight: 700,
+            color: '#ffffff',
+            letterSpacing: '-0.01em'
+          }}>
+            Work Experience
+          </h3>
+        </div>
 
-        <div className="glass-panel glass-card" style={{ padding: '24px', borderRadius: '16px' }}>
-          <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: '1.6' }}>
-            Active problem solver across various algorithmic challenges. Dedicated to honing problem-solving speed, logic optimization, and data structures.
-          </p>
+        {/* Main Work Experience Cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', marginBottom: '55px' }}>
+          {workExperience.map((exp) => (
+            <div
+              key={exp.id}
+              className="cosmic-card"
+              style={{
+                padding: '36px 32px',
+                textAlign: 'left'
+              }}
+            >
+              {/* Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                flexWrap: 'wrap',
+                gap: '12px',
+                marginBottom: '16px'
+              }}>
+                <div>
+                  <h3 style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.35rem',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.3,
+                    marginBottom: '4px'
+                  }}>
+                    {exp.role}
+                  </h3>
+                  <span style={{
+                    fontSize: '1.05rem',
+                    fontWeight: 600,
+                    color: '#818cf8'
+                  }}>
+                    {exp.company} • {exp.location}
+                  </span>
+                  {exp.project && (
+                    <span style={{
+                      display: 'block',
+                      fontSize: '0.92rem',
+                      color: '#cbd5e1',
+                      fontWeight: 500,
+                      marginTop: '4px'
+                    }}>
+                      Project: <strong style={{ color: '#c084fc' }}>{exp.project}</strong>
+                    </span>
+                  )}
+                </div>
+
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(129, 140, 248, 0.12)',
+                  color: '#cbd5e1',
+                  padding: '6px 14px',
+                  borderRadius: '9999px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  border: '1px solid rgba(129, 140, 248, 0.2)'
+                }}>
+                  <span>{exp.period}</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <p style={{
+                fontSize: '0.98rem',
+                color: '#94a3b8',
+                marginBottom: '20px',
+                lineHeight: '1.7'
+              }}>
+                {exp.description}
+              </p>
+
+              {/* Bullet Highlights */}
+              <ul style={{
+                paddingLeft: '20px',
+                marginBottom: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}>
+                {exp.achievements.map((ach, idx) => (
+                  <li key={idx} style={{ color: '#cbd5e1', fontSize: '0.92rem', lineHeight: '1.6' }}>
+                    {ach}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Tech Tags */}
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {exp.technologies.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      padding: '4px 12px',
+                      borderRadius: '9999px',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      color: '#a5b4fc'
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Section: Certifications */}
+        <div style={{ marginBottom: '55px' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            marginBottom: '24px'
+          }}>
+            <BadgeCheck size={20} color="#38bdf8" />
+            <h3 style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.35rem',
+              fontWeight: 700,
+              color: '#ffffff',
+              letterSpacing: '-0.01em'
+            }}>
+              Certifications & Credentials
+            </h3>
+          </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: '16px'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '26px'
           }}>
-            {/* Stat Item 1: Solved Problems */}
-            <div style={{
-              padding: '16px',
-              borderRadius: '12px',
-              backgroundColor: 'var(--card-border)',
-              textAlign: 'center',
-              transition: 'transform var(--transition-fast), border-color var(--transition-fast)',
-              border: '1px solid transparent'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.borderColor = 'var(--primary-light)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-            >
-              <span className="gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, display: 'block', fontFamily: 'var(--font-heading)' }}>
-                {competitiveData.totalSolved}
-              </span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Solved Problems
-              </span>
-            </div>
+            {certificationsData.map((cert) => (
+              <div
+                key={cert.id}
+                className="cosmic-card"
+                style={{
+                  padding: '30px 28px',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      width: '42px',
+                      height: '42px',
+                      borderRadius: '12px',
+                      background: cert.id === 1
+                        ? 'linear-gradient(135deg, rgba(248, 152, 32, 0.18), rgba(236, 72, 153, 0.15))'
+                        : 'linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(99, 102, 241, 0.15))',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid rgba(255, 255, 255, 0.08)'
+                    }}>
+                      {cert.id === 1 ? <Coffee size={22} color="#f89820" /> : <Database size={22} color="#38bdf8" />}
+                    </div>
+                    <div>
+                      <h4 style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
+                        color: '#ffffff',
+                        letterSpacing: '-0.01em',
+                        lineHeight: 1.3
+                      }}>
+                        {cert.title}
+                      </h4>
+                      <span style={{ fontSize: '0.85rem', color: '#818cf8', fontWeight: 500 }}>
+                        {cert.issuer}
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Stat Item 2: CodeChef Rating */}
-            <div style={{
-              padding: '16px',
-              borderRadius: '12px',
-              backgroundColor: 'var(--card-border)',
-              textAlign: 'center',
-              transition: 'transform var(--transition-fast), border-color var(--transition-fast)',
-              border: '1px solid transparent'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.borderColor = 'var(--primary-light)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-            >
-              <span className="gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, display: 'block', fontFamily: 'var(--font-heading)' }}>
-                {competitiveData.codechefRating}
-              </span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                CodeChef Rating
-              </span>
-            </div>
+                  <span style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: '#34d399',
+                    background: 'rgba(52, 211, 153, 0.12)',
+                    padding: '4px 10px',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(52, 211, 153, 0.25)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {cert.badge}
+                  </span>
+                </div>
 
-            {/* Stat Item 3: LeetCode solved */}
-            <div style={{
-              padding: '16px',
-              borderRadius: '12px',
-              backgroundColor: 'var(--card-border)',
-              textAlign: 'center',
-              transition: 'transform var(--transition-fast), border-color var(--transition-fast)',
-              border: '1px solid transparent'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.borderColor = 'var(--primary-light)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-            >
-              <span className="gradient-text" style={{ fontSize: '1.8rem', fontWeight: 800, display: 'block', fontFamily: 'var(--font-heading)' }}>
-                {competitiveData.leetcodeSolved}
-              </span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                LeetCode Solved
-              </span>
-            </div>
+                <p style={{
+                  fontSize: '0.92rem',
+                  color: '#94a3b8',
+                  lineHeight: '1.65',
+                  marginBottom: '18px',
+                  flexGrow: 1
+                }}>
+                  {cert.description}
+                </p>
+
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {cert.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: '0.76rem',
+                        fontWeight: 600,
+                        padding: '3px 10px',
+                        borderRadius: '6px',
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        color: '#cbd5e1'
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Section: Achievements & Leadership */}
+        <div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            marginBottom: '24px'
+          }}>
+            <Trophy size={20} color="#c084fc" />
+            <h3 style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.35rem',
+              fontWeight: 700,
+              color: '#ffffff',
+              letterSpacing: '-0.01em'
+            }}>
+              Achievements & Leadership
+            </h3>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '26px'
+          }}>
+            {achievementsData.map((ach) => (
+              <div key={ach.id} className="cosmic-card" style={{ padding: '30px 26px', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '10px',
+                      background: ach.icon === 'trophy'
+                        ? 'rgba(251, 191, 36, 0.12)'
+                        : ach.icon === 'users'
+                        ? 'rgba(192, 132, 252, 0.12)'
+                        : 'rgba(129, 140, 248, 0.12)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid rgba(255, 255, 255, 0.08)'
+                    }}>
+                      {ach.icon === 'trophy' && <Trophy size={20} color="#fbbf24" />}
+                      {ach.icon === 'users' && <Users size={20} color="#c084fc" />}
+                      {ach.icon === 'code' && <Code size={20} color="#818cf8" />}
+                    </div>
+                    <div>
+                      <h4 style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '1.12rem',
+                        fontWeight: 700,
+                        color: '#ffffff',
+                        letterSpacing: '-0.01em',
+                        lineHeight: 1.3
+                      }}>
+                        {ach.title}
+                      </h4>
+                      <span style={{ fontSize: '0.84rem', color: '#818cf8', fontWeight: 500 }}>
+                        {ach.role}
+                      </span>
+                    </div>
+                  </div>
+
+                  <span style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: '#c084fc',
+                    background: 'rgba(192, 132, 252, 0.12)',
+                    padding: '4px 10px',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(192, 132, 252, 0.25)',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {ach.metric}
+                  </span>
+                </div>
+
+                <span style={{ fontSize: '0.86rem', color: '#cbd5e1', fontWeight: 600, display: 'block', marginBottom: '10px' }}>
+                  {ach.platform}
+                </span>
+
+                <p style={{ fontSize: '0.92rem', color: '#94a3b8', lineHeight: '1.65', flexGrow: 1 }}>
+                  {ach.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
-      {/* Certifications Card */}
-      <div>
-        <h3 style={{
-          fontSize: '1.8rem',
-          fontWeight: 700,
-          marginBottom: '24px',
-          color: 'var(--text-primary)',
-          fontFamily: 'var(--font-heading)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px'
-        }}>
-          {/* Award/Award-ribbon Icon */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ color: 'var(--primary)' }}>
-            <circle cx="12" cy="8" r="7"></circle>
-            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-          </svg>
-          Certifications
-        </h3>
-
-        <div className="glass-panel glass-card" style={{ padding: '24px', borderRadius: '16px' }}>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '16px', padding: 0, margin: 0 }}>
-            {certificationsData.map((cert, idx) => (
-              <li 
-                key={idx} 
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 16px',
-                  borderRadius: '10px',
-                  backgroundColor: 'var(--card-border)',
-                  border: '1px solid transparent',
-                  transition: 'border-color var(--transition-fast), transform var(--transition-fast)'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--primary-light)';
-                  e.currentTarget.style.transform = 'translateX(5px)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.borderColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateX(0)';
-                }}
-              >
-                {/* Shield Check Icon */}
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                  <path d="M9 11l2 2 4-4"></path>
-                </svg>
-                <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{cert}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 

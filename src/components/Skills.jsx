@@ -1,98 +1,172 @@
 import { useState } from 'react';
-import { skillsData } from '../data/skills';
+import { skillsCategories, skillsList } from '../data/skills';
+import { GithubIcon } from './Icons';
+import {
+  Bot,
+  Link2,
+  Layers,
+  Flame,
+  Cpu,
+  Activity,
+  Compass,
+  Puzzle,
+  Settings,
+  RefreshCw,
+  Code,
+  Terminal,
+  Coffee,
+  FileCode,
+  Database,
+  Layout,
+  Palette,
+  Zap,
+  Atom,
+  FlaskConical,
+  Crown,
+  Globe,
+  Gauge,
+  Box,
+  HardDrive,
+  Server,
+  GitBranch,
+  Send,
+  Binary,
+  BoxSelect,
+  Table
+} from 'lucide-react';
 
 const Skills = () => {
-  const [activeCategory, setActiveCategory] = useState(skillsData[0].category);
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  // Helper to render icon by name
+  const renderIcon = (iconName, color) => {
+    const props = { size: 18, color: color || '#818cf8', strokeWidth: 2.2 };
+    switch (iconName) {
+      case 'bot': return <Bot {...props} />;
+      case 'link-2': return <Link2 {...props} />;
+      case 'layers': return <Layers {...props} />;
+      case 'flame': return <Flame {...props} />;
+      case 'cpu': return <Cpu {...props} />;
+      case 'activity': return <Activity {...props} />;
+      case 'compass': return <Compass {...props} />;
+      case 'puzzle': return <Puzzle {...props} />;
+      case 'settings': return <Settings {...props} />;
+      case 'refresh-cw': return <RefreshCw {...props} />;
+      case 'code': return <Code {...props} />;
+      case 'terminal': return <Terminal {...props} />;
+      case 'coffee': return <Coffee {...props} />;
+      case 'file-code': return <FileCode {...props} />;
+      case 'database': return <Database {...props} />;
+      case 'layout': return <Layout {...props} />;
+      case 'palette': return <Palette {...props} />;
+      case 'zap': return <Zap {...props} />;
+      case 'atom': return <Atom {...props} />;
+      case 'flask-conical': return <FlaskConical {...props} />;
+      case 'crown': return <Crown {...props} />;
+      case 'globe': return <Globe {...props} />;
+      case 'gauge': return <Gauge {...props} />;
+      case 'box': return <Box {...props} />;
+      case 'hard-drive': return <HardDrive {...props} />;
+      case 'server': return <Server {...props} />;
+      case 'git-branch': return <GitBranch {...props} />;
+      case 'github': return <GithubIcon {...props} />;
+      case 'send': return <Send {...props} />;
+      case 'binary': return <Binary {...props} />;
+      case 'box-select': return <BoxSelect {...props} />;
+      case 'table': return <Table {...props} />;
+      default: return <Code {...props} />;
+    }
+  };
+
+  const filteredSkills = activeCategory === 'All'
+    ? skillsList
+    : skillsList.filter((s) => s.category === activeCategory);
 
   return (
-    <section id="skills" className="section" style={{ backgroundColor: 'rgba(var(--primary-hsl), 0.01)' }}>
+    <section id="skills" className="section">
       <div className="container">
-        <h2 className="section-title">My Technical Skills</h2>
-        <p className="section-subtitle">A breakdown of my technical proficiencies and primary toolkit</p>
+        {/* Section Tag */}
+        <div className="section-tag section-tag-center">
+          <span>03 — SKILLS</span>
+        </div>
 
-        {/* Tab Buttons */}
+        {/* Section Heading */}
+        <h2 className="section-heading" style={{ textAlign: 'center' }}>
+          Tech I <span className="italic-accent">Work With</span>
+        </h2>
+
+        {/* Accent Line */}
+        <div className="accent-line accent-line-center"></div>
+
+        {/* Filter Category Pills */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          gap: '12px',
-          marginBottom: '40px',
-          flexWrap: 'wrap'
+          gap: '10px',
+          flexWrap: 'wrap',
+          marginBottom: '45px'
         }}>
-          {skillsData.map((cat) => (
-            <button
-              key={cat.category}
-              onClick={() => setActiveCategory(cat.category)}
-              className="btn"
-              style={{
-                background: activeCategory === cat.category ? 'var(--accent-gradient)' : 'transparent',
-                color: activeCategory === cat.category ? 'white' : 'var(--text-primary)',
-                border: '1px solid var(--card-border)',
-                boxShadow: activeCategory === cat.category ? '0 4px 12px rgba(139, 92, 246, 0.3)' : 'none',
-                padding: '10px 24px'
-              }}
-            >
-              {cat.category}
-            </button>
-          ))}
-        </div>
-
-        {/* Tab Panel Content */}
-        <div className="glass-panel glass-card" style={{
-          maxWidth: '800px',
-          margin: '0 auto',
-          padding: '40px 30px',
-          borderRadius: '20px'
-        }}>
-          {skillsData.map((cat) => {
-            if (cat.category !== activeCategory) return null;
-
+          {skillsCategories.map((cat) => {
+            const isSelected = activeCategory === cat;
             return (
-              <div key={cat.category} style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px',
-                animation: 'fadeIn 0.4s ease'
-              }}>
-                {cat.skills.map((skill) => (
-                  <div key={skill.name} style={{ textAlign: 'left' }}>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      marginBottom: '8px',
-                      fontWeight: 600,
-                      color: 'var(--text-primary)'
-                    }}>
-                      <span>{skill.name}</span>
-                      <span>{skill.level}%</span>
-                    </div>
-                    {/* Progress Bar Container */}
-                    <div style={{
-                      height: '8px',
-                      background: 'var(--card-border)',
-                      borderRadius: '4px',
-                      overflow: 'hidden'
-                    }}>
-                      {/* Active Progress Bar with animation */}
-                      <div style={{
-                        height: '100%',
-                        width: `${skill.level}%`,
-                        background: 'var(--accent-gradient)',
-                        borderRadius: '4px',
-                        transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  padding: '8px 20px',
+                  borderRadius: '9999px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.88rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  border: isSelected ? '1px solid #818cf8' : '1px solid rgba(148, 163, 230, 0.15)',
+                  background: isSelected ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.25), rgba(168, 85, 247, 0.2))' : 'rgba(14, 18, 42, 0.6)',
+                  color: isSelected ? '#ffffff' : '#94a3b8',
+                  backdropFilter: 'blur(8px)',
+                  boxShadow: isSelected ? '0 0 16px rgba(129, 140, 248, 0.3)' : 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {cat}
+              </button>
             );
           })}
+        </div>
+
+        {/* Tech Badges Cloud (Matching Image 4) */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '14px',
+          maxWidth: '1050px',
+          margin: '0 auto'
+        }}>
+          {filteredSkills.map((skill) => (
+            <div
+              key={skill.name}
+              className="tech-pill"
+              style={{ animation: 'badge-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center' }}>
+                {renderIcon(skill.icon, skill.color)}
+              </span>
+              <span>{skill.name}</span>
+            </div>
+          ))}
         </div>
       </div>
 
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes badge-pop {
+          from {
+            opacity: 0;
+            transform: scale(0.9) translateY(8px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
       `}</style>
     </section>
